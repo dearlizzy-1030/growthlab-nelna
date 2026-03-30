@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>그로스랩 KPI</title>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0c0f;--card:#13151a;--hov:#1c1f27;
+  --bdr:rgba(255,255,255,.07);--bhi:rgba(255,255,255,.14);
+  --t:#eaeaea;--t2:#8a8f9e;--t3:#3e4450;
+  --teal:#00d4aa;--tl:rgba(0,212,170,.12);
+  --amb:#f5a623;--al:rgba(245,166,35,.12);
+  --cor:#ff6b6b;--cl:rgba(255,107,107,.1);
+  --blu:#4a9eff;--bl:rgba(74,158,255,.1);
+  --pur:#a78bfa;--pl:rgba(167,139,250,.1);
+  --grn:#4ade80;--gl:rgba(74,222,128,.1);
+  --naver:#03c75a;
+  --r:12px;--rs:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg);color:var(--t);min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto;padding:32px 22px 80px}
+
+/* HEADER */
+.hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px}
+.htitle{font-size:24px;font-weight:800;letter-spacing:-.6px}
+.hsub{font-size:12px;color:var(--t2);margin-top:4px}
+.hcontrols{display:flex;align-items:center;gap:8px}
+.month-sel{background:var(--card);border:1px solid var(--bdr);color:var(--t);font-size:13px;padding:8px 12px;border-radius:var(--rs);outline:none;font-family:inherit;cursor:pointer}
+.month-sel:focus{border-color:var(--teal)}
+.save-btn{background:var(--teal);color:#0a1a16;border:none;padding:8px 20px;border-radius:var(--rs);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.save-btn:hover{opacity:.85}
+
+/* OVERALL SCORE */
+.score-bar{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px 26px;margin-bottom:22px;display:flex;align-items:center;gap:24px}
+.score-ring{flex-shrink:0;position:relative;width:88px;height:88px}
+.score-ring svg{transform:rotate(-90deg)}
+.score-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-pct{font-size:20px;font-weight:800;font-family:'DM Mono',monospace}
+.score-label{font-size:9px;color:var(--t3);margin-top:1px}
+.score-info{flex:1}
+.score-title{font-size:16px;font-weight:700;margin-bottom:6px}
+.score-badges{display:flex;gap:8px;flex-wrap:wrap}
+.sbadge{font-size:11px;padding:3px 10px;border-radius:100px;font-weight:600}
+.score-desc{font-size:12px;color:var(--t2);margin-top:8px;line-height:1.6}
+
+/* KPI CARD */
+.kpi-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:24px}
+.kpi-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;transition:border-color .15s}
+.kpi-card.achieved{border-color:rgba(0,212,170,.3)}
+.kpi-card.warn{border-color:rgba(245,166,35,.25)}
+.kpi-card.danger{border-color:rgba(255,107,107,.2)}
+.kpi-top-bar{height:3px;width:100%}
+.kpi-body{padding:22px 24px}
+.kpi-row{display:flex;align-items:flex-start;gap:20px}
+.kpi-left{flex:1;min-width:0}
+.kpi-right{flex-shrink:0;text-align:right}
+.kpi-icon{font-size:22px;margin-bottom:8px}
+.kpi-name{font-size:16px;font-weight:700;margin-bottom:3px}
+.kpi-note{font-size:11px;color:var(--t3);line-height:1.5}
+
+/* 실적 / 목표 */
+.nums-row{display:flex;align-items:flex-end;gap:24px;margin:14px 0}
+.num-block{display:flex;flex-direction:column;gap:3px}
+.num-label{font-size:10px;color:var(--t2);text-transform:uppercase;letter-spacing:.5px}
+.num-val{font-size:28px;font-weight:800;font-family:'DM Mono',monospace;letter-spacing:-.8px;line-height:1}
+.num-input{background:rgba(255,255,255,.05);border:1px solid var(--bdr);border-radius:6px;color:var(--t);font-size:22px;font-weight:700;font-family:'DM Mono',monospace;padding:4px 8px;outline:none;width:160px;transition:border-color .15s}
+.num-input:focus{border-color:var(--teal);background:rgba(0,212,170,.05)}
+.num-sub{font-size:11px;color:var(--t3);margin-top:3px}
+
+/* PROGRESS */
+.progress-section{margin-bottom:12px}
+.prog-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--t2);margin-bottom:6px}
+.prog-bar{height:10px;background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden}
+.prog-fill{height:100%;border-radius:100px;transition:width .7s cubic-bezier(.25,.8,.25,1);position:relative}
+.prog-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:4px;background:rgba(255,255,255,.5);border-radius:100px}
+.prog-over{background:repeating-linear-gradient(90deg,rgba(255,107,107,.7) 0,rgba(255,107,107,.7) 8px,transparent 8px,transparent 14px);width:100%;height:100%;border-radius:100px}
+.prog-pct-badge{font-size:18px;font-weight:800;font-family:'DM Mono',monospace}
+
+/* ROAS 서브 테이블 */
+.roas-table{width:100%;margin-top:14px;padding-top:14px;border-top:1px solid var(--bdr)}
+.roas-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bdr)}
+.roas-row:last-child{border-bottom:none}
+.roas-ch{display:flex;align-items:center;gap:7px;flex:1;font-size:13px;font-weight:500}
+.roas-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.roas-actual{font-size:14px;font-weight:700;font-family:'DM Mono',monospace;min-width:52px;text-align:right}
+.roas-vs{font-size:11px;color:var(--t2);min-width:18px;text-align:center}
+.roas-target-wrap{display:flex;align-items:center;gap:6px}
+.roas-target-input{background:rgba(255,255,255,.05);border:1px solid var(--bdr);border-radius:6px;color:var(--t);font-size:13px;font-weight:600;font-family:'DM Mono',monospace;padding:4px 8px;outline:none;width:76px;transition:border-color .15s;text-align:center}
+.roas-target-input:focus{border-color:var(--teal);background:rgba(0,212,170,.05)}
+.roas-prog-mini{flex:1;height:5px;background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden;max-width:120px}
+.roas-prog-fill{height:100%;border-radius:100px}
+.roas-badge{font-size:10px;padding:2px 7px;border-radius:100px;font-weight:700;flex-shrink:0;min-width:44px;text-align:center}
+
+/* CONTENT 서브 */
+.content-channels{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--bdr)}
+.ch-cell{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 8px;background:rgba(255,255,255,.02);border-radius:var(--rs);border:1px solid var(--bdr)}
+.ch-cell-name{font-size:10px;color:var(--t2);text-transform:uppercase;letter-spacing:.4px}
+.ch-cell-actual{font-size:20px;font-weight:800;font-family:'DM Mono',monospace}
+.ch-cell-target{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t3)}
+.ch-cell-inp{background:rgba(255,255,255,.05);border:1px solid var(--bdr);border-radius:4px;color:var(--t);font-size:14px;font-weight:700;font-family:'DM Mono',monospace;padding:2px 4px;outline:none;width:36px;text-align:center;transition:border-color .15s}
+.ch-cell-inp:focus{border-color:var(--teal)}
+.ch-cell-bar{width:100%;height:4px;background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden;margin-top:2px}
+.ch-cell-bar-fill{height:100%;border-radius:100px}
+
+/* NOTE */
+.note-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px 24px}
+.note-title{font-size:13px;font-weight:600;margin-bottom:12px;color:var(--t2)}
+.note-inp{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--bdr);border-radius:var(--rs);color:var(--t);font-size:13px;padding:10px 12px;outline:none;font-family:inherit;resize:none;line-height:1.6;transition:border-color .15s}
+.note-inp:focus{border-color:var(--teal)}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--teal);color:#0a1a16;font-size:13px;font-weight:700;padding:11px 24px;border-radius:100px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1}
+
+/* STATUS PILL */
+.pill-great{background:var(--tl);color:var(--teal)}
+.pill-good{background:var(--gl);color:var(--grn)}
+.pill-warn{background:var(--al);color:var(--amb)}
+.pill-danger{background:var(--cl);color:var(--cor)}
+.pill-na{background:rgba(255,255,255,.06);color:var(--t3)}
+
+@media(max-width:700px){
+  .nums-row{flex-direction:column;gap:12px}
+  .content-channels{grid-template-columns:1fr 1fr}
+  .score-bar{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div>
+    <div class="htitle">그로스랩 KPI 🎯</div>
+    <div class="hsub" id="period-label">2026년 3월 · 목표 달성 현황</div>
+  </div>
+  <div class="hcontrols">
+    <select class="month-sel" id="month-sel" onchange="changeMonth()">
+      <option value="2026-03" selected>2026년 3월</option>
+      <option value="2026-04">2026년 4월</option>
+      <option value="2026-05">2026년 5월</option>
+      <option value="2026-06">2026년 6월</option>
+    </select>
+    <button class="save-btn" onclick="saveAll()">💾 저장</button>
+  </div>
+</div>
+
+<!-- OVERALL SCORE -->
+<div class="score-bar" id="score-bar"></div>
+
+<!-- KPI CARDS -->
+<div class="kpi-grid" id="kpi-grid"></div>
+
+<!-- NOTE -->
+<div class="note-card">
+  <div class="note-title">📝 이달의 메모 & 특이사항</div>
+  <textarea class="note-inp" id="note-inp" rows="3"
+    placeholder="이달 주요 이슈, 다음달 계획, 특이사항 등 자유롭게 기록하세요..."></textarea>
+</div>
+
+</div>
+<div class="toast" id="toast">✅ 저장됐어요!</div>
+
+<script src="kpi.js"></script>
+</body>
+</html>
