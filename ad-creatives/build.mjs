@@ -264,10 +264,11 @@ h1{position:absolute;left:56px;top:${top}px;width:968px;font-weight:800;letter-s
 ${ext
   ? `.pimg{position:absolute;left:0;top:${it.ptop || 580}px;width:1080px;height:${it.ph || 770}px;object-fit:cover;object-position:${pos};-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 ${it.fade ?? 110}px);mask-image:linear-gradient(to bottom,transparent 0,#000 ${it.fade ?? 110}px)}`
   : `.pimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:${pos};transform:scale(${it.zoom || 1});transform-origin:${it.origin || pos}}
-.shadeT{position:absolute;left:0;right:0;top:0;height:600px;background:linear-gradient(to bottom,rgba(0,0,0,.62),rgba(0,0,0,0));z-index:3}`}
+.shadeT{position:absolute;left:0;right:0;top:0;height:600px;background:linear-gradient(to bottom,rgba(0,0,0,.62),rgba(0,0,0,0));z-index:3}
+.shadeB{position:absolute;left:0;right:0;bottom:0;height:520px;background:linear-gradient(to top,rgba(0,0,0,.62),rgba(0,0,0,0));z-index:3}`}
 </style></head><body><div class="ad">
 <img class="pimg" src="${PHOTO_URL}/${it.photo}">
-${ext || it.noshade ? '' : '<div class="shadeT"></div>'}
+${ext || it.noshade ? '' : it.shade === 'bottom' ? '<div class="shadeB"></div>' : '<div class="shadeT"></div>'}
 ${it.logo === 'none' ? '' : `<img class="logo" src="${PHOTO_URL}/${ext || it.logo === 'green' ? 'logo_green.png' : 'logo_cream.png'}">`}
 <h1 class="fit" data-size="${it.size || 80}">${rich(it.headline)}</h1>
 <p class="sub">${rich(it.sub)}</p>
