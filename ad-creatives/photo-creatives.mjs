@@ -5,14 +5,14 @@
 export const photoSets = {
   '01-timer': [
     { id: 't1', copy: 'c1', photo: 'timer_butter.jpg', layout: 'photoTop', pos: '50% 59%', h: 840, bg: '#FFF1CC', story: true,
-      kicker: '포커스 온 타이머', headline: '나의 하루는\n*72시간*', sub: 'One thing at a time' },
+      kicker: '포커스 온 타이머', headline: '돌리면,\n*시작*', sub: '다이얼 한 번이면 자동으로 카운트다운' },
     { id: 't2', copy: 'c3', photo: 'timer_tomato.jpg', layout: 'photoTop', pos: '50% 59%', h: 840, bg: '#2A1F14', story: true,
-      kicker: '나에게 맞는 알람', headline: '집중할 땐 *조용히*,\n쉴 땐 *당당하게*', sub: '무음 · 작게 · 크게 × 3초 · 30초 × 라이트' },
+      kicker: '폰 말고 타이머', headline: '폰 말고\n*타이머*에게 맡기세요', sub: '공부 · 회의 · 휴식 · SNS 시간 제한까지' },
     { id: 't3', copy: 'c2', photo: 'timer_butter.jpg', layout: 'photoTop', pos: '50% 59%', h: 840, bg: '#1D2A5B', hl: '#FFD966',
-      kicker: '충전 걱정 없이', headline: '데스크 위 작은\n*몰입 스위치*', sub: 'AAA건전지로 충전 없이, 다이얼만 돌리면 시작',
-      foot: '* 하루 3시간 사용 기준 6개월' },
-    { id: 't4', copy: 'c1', photo: 'timer_tomato.jpg', layout: 'photoTop', pos: '50% 59%', h: 840, bg: '#FFE3DC',
-      kicker: '포커스 온 타이머', headline: '나의 하루는\n*72시간*', sub: 'Flow with your own rhythm' },
+      kicker: '충전 걱정 없이', headline: '충전기 말고,\n*건전지 하나*', sub: 'AAA건전지 방식 · 하루 3시간 써도 6개월',
+      foot: '* 하루 3시간 사용 기준' },
+    { id: 't4', copy: 'c4', photo: 'timer_tomato.jpg', layout: 'photoTop', pos: '50% 59%', h: 840, bg: '#FFE3DC',
+      kicker: '데스크테리어', headline: '책상 위에 두면\n*인테리어*가 되는 타이머', sub: '클래식 · 버터 · 토마토 3가지 색' },
   ],
   '02-stand': [
     { id: 'p1', copy: 'c3', photo: 'stand.jpg', layout: 'photoTop', pos: '50% 50%', h: 660, bg: '#ECE9E2', story: true,
