@@ -262,7 +262,7 @@ h1{position:absolute;left:56px;top:${top}px;width:968px;font-weight:800;letter-s
 .hl{color:${ext ? hl : '#FFE066'}}
 .sub{position:absolute;left:56px;top:${top + 190}px;width:968px;font-size:31px;font-weight:500;color:${ext ? '#555' : 'rgba(255,255,255,.92)'};z-index:5;line-height:1.4}
 ${ext
-  ? `.pimg{position:absolute;left:0;top:580px;width:1080px;height:770px;object-fit:cover;object-position:${pos};-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 110px);mask-image:linear-gradient(to bottom,transparent 0,#000 110px)}`
+  ? `.pimg{position:absolute;left:0;top:${it.ptop || 580}px;width:1080px;height:${it.ph || 770}px;object-fit:cover;object-position:${pos};-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 110px);mask-image:linear-gradient(to bottom,transparent 0,#000 110px)}`
   : `.pimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:${pos};transform:scale(${it.zoom || 1});transform-origin:${it.origin || pos}}
 .shadeT{position:absolute;left:0;right:0;top:0;height:600px;background:linear-gradient(to bottom,rgba(0,0,0,.62),rgba(0,0,0,0));z-index:3}`}
 </style></head><body><div class="ad">
@@ -326,7 +326,7 @@ function brief() {
     if (brandSets[p.id]) {
       L.push('### 낼나 기존 광고 스타일 시안 (사진 풀블리드 · nelna. 로고 · 딥그린 바 / 가격·구매 버튼 없음)\n');
       for (const it of brandSets[p.id]) {
-        const src = p.creatives.find((c) => c.id === it.copy);
+        const src = it.primary ? { primary: it.primary, mhead: it.mhead } : p.creatives.find((c) => c.id === it.copy);
         const body = src.primary.split('\n').filter((l) => !/정가|32,900원/.test(l)).join('\n').replace('👉 지금 바로 확인하기', '👉 자세히 보기').replace('👉 색상 고르러 가기', '👉 자세히 보기').replace('👉 집중력 찾으러 가기', '👉 자세히 보기').replace(/\n{3,}/g, '\n\n');
         L.push(`#### ${p.id}_${it.id}\n`);
         L.push(`![${p.id}_${it.id}](out/${p.id}_${it.id}_feed.png)\n`);

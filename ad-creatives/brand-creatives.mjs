@@ -15,5 +15,9 @@ export const brandSets = {
     { id: 'n6', copy: 'c6', layout: 'photo', photo: 'timer_butter.jpg', pos: '50% 50%', zoom: 1.2, origin: '50% 8%',
       headline: '집 나간 *집중력*,\n찾아드려요', sub: '다이얼 한 번, 몰입의 순간을 경험해 보세요',
       desc: '몰입의 순간을 경험해 보세요', cta: '더 알아보기' },
+    { id: 'n7', layout: 'extend', photo: 'timer_classic.jpg', pos: '50% 30%', ptop: 330, ph: 1020, bgc: '#E6E7E4', hl: '#F26B1D',
+      headline: '몰입의 시간을\n*경험해보세요*', sub: '클래식 컬러 포커스 온 타이머',
+      mhead: '클래식 컬러로 만나는 몰입의 시간', desc: '클래식 컬러 포커스 온 타이머', cta: '더 알아보기',
+      primary: '클래식 컬러로 만나는 몰입의 시간.🌿\n다이얼을 돌리는 순간 시작되는 카운트다운, 몰입의 시간을 경험해보세요.\n✅ 다이얼만 돌리면 자동 카운트다운\n✅ 남은 시간이 색으로 한눈에\n✅ 무음 · 작게 · 크게, 내 성향대로 고르는 알람\n\n👉 자세히 보기\n\n𝙣𝙚𝙡𝙣𝙖.𝙨𝙝𝙤𝙥' },
   ],
 };
