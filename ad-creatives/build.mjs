@@ -243,67 +243,38 @@ Promise.all([document.fonts.ready,img.decode().catch(()=>{})]).then(()=>{
 }
 
 
-// ---------- 낼나 스타일 ----------
-const poly = `polygon(${Array.from({ length: 36 }, (_, i) => { const r = i % 2 ? 41 : 50; const a = (Math.PI * 2 * i) / 36 - Math.PI / 2; return `${(50 + r * Math.cos(a)).toFixed(1)}% ${(50 + r * Math.sin(a)).toFixed(1)}%`; }).join(',')})`;
-const B_GREEN = '#0B5439', B_RED = '#E5322B', B_CREAM = '#F3EFE4';
+// ---------- 낼나 스타일 (2번 구도: 사진 + 상단 헤드라인 + 딥그린 바 · 가격/CTA 없음) ----------
+const B_GREEN = '#0B5439', B_RED = '#E5322B';
 function renderBrand(p, it, fmt) {
-  const photo = it.layout === 'photo';
+  const ext = it.layout === 'extend';
   const hl = it.hl || B_RED;
-  const logo = photo ? 'logo_cream.png' : 'logo_green.png';
   const fonts = ['Regular:400', 'Medium:500', 'SemiBold:600', 'Bold:700', 'ExtraBold:800']
     .map((x) => { const [n, w] = x.split(':'); return `@font-face{font-family:'PT';font-weight:${w};src:url('${FONT_URL}/Pretendard-${n}.woff2') format('woff2');}`; }).join('\n');
-  const tags = (it.tags || []).map((t, i) => `<span class="${i % 2 ? 'y' : 'r'}">${esc(t)}</span>`).join('');
-  const top = it.tags ? 176 : 128;
-  const blob = (c, l, t, s) => `<i class="blob" style="background:${c};left:${l}px;top:${t}px;width:${s}px;height:${s}px"></i>`;
-  const stage = `
-    <div class="stage">
-      ${it.blobs ? blob('#F6E3A6', 10, 150, 400) + blob('#D4E4F2', 650, 170, 400) + blob('#F3D3D0', 250, 20, 560) : ''}
-      <div class="floor"></div>
-      <img class="c a" src="${PHOTO_URL}/cut_classic.png"><img class="c b" src="${PHOTO_URL}/cut_butter.png"><img class="c m" src="${PHOTO_URL}/cut_tomato.png">
-    </div>`;
+  const top = 128;
+  const pos = it.pos || '50% 50%';
   return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><style>
 ${fonts}
 *{box-sizing:border-box;margin:0;padding:0}
 body{width:${fmt.w}px;height:${fmt.h}px;overflow:hidden;font-family:'PT',sans-serif;word-break:keep-all;-webkit-font-smoothing:antialiased}
-.ad{position:relative;width:${fmt.w}px;height:${fmt.h}px;overflow:hidden;background:${photo ? '#222' : it.bg}}
+.ad{position:relative;width:${fmt.w}px;height:${fmt.h}px;overflow:hidden;background:${ext ? it.bgc : '#222'}}
 .logo{position:absolute;left:56px;top:48px;height:40px;z-index:5}
-.tags{position:absolute;left:56px;top:112px;display:flex;gap:10px;z-index:5}
-.tags span{font-weight:700;font-size:25px;padding:8px 20px;border-radius:999px}
-.tags .r{color:${B_RED};background:#FDECEA;border:2px solid ${B_RED}}
-.tags .y{color:#4a3b00;background:#F6DD7B}
-h1{position:absolute;left:56px;top:${top}px;width:968px;font-weight:800;letter-spacing:-0.045em;line-height:1.17;color:${photo ? '#fff' : '#1A1A1A'};white-space:nowrap;z-index:5}
-.hl{color:${photo ? '#FFE066' : hl}}
-.sub{position:absolute;left:56px;top:${top + 190}px;width:968px;font-size:31px;font-weight:500;color:${photo ? 'rgba(255,255,255,.92)' : '#555'};z-index:5;line-height:1.4}
-.sub .hl{color:${photo ? '#FFE066' : B_GREEN};font-weight:800}
+h1{position:absolute;left:56px;top:${top}px;width:968px;font-weight:800;letter-spacing:-0.045em;line-height:1.17;color:${ext ? '#1A1A1A' : '#fff'};white-space:nowrap;z-index:5}
+.hl{color:${ext ? hl : '#FFE066'}}
+.sub{position:absolute;left:56px;top:${top + 190}px;width:968px;font-size:31px;font-weight:500;color:${ext ? '#555' : 'rgba(255,255,255,.92)'};z-index:5;line-height:1.4}
 .bar{position:absolute;left:0;right:0;bottom:0;height:86px;background:${B_GREEN};color:#fff;display:flex;align-items:center;justify-content:center;gap:18px;font-size:30px;font-weight:600;z-index:6}
-.bar b{font-weight:800}
 .bar img{height:34px}
-.cta{position:absolute;left:50%;transform:translateX(-50%);bottom:126px;background:${B_RED};color:#fff;font-weight:800;font-size:38px;padding:24px 78px;border-radius:999px;white-space:nowrap;box-shadow:0 10px 0 rgba(0,0,0,.12);z-index:6}
-.stage{position:absolute;left:0;top:${top + 250}px;width:1080px;height:640px;z-index:2}
-.c{position:absolute;filter:drop-shadow(0 22px 20px rgba(60,40,10,.24))}
-.c.a{width:400px;left:8px;top:190px;transform:rotate(-6deg);z-index:1}
-.c.b{width:400px;right:8px;top:205px;transform:rotate(6deg);z-index:1}
-.c.m{width:500px;left:290px;top:50px;z-index:3}
-.floor{position:absolute;left:150px;right:150px;bottom:30px;height:50px;border-radius:50%;background:rgba(40,30,10,.20);filter:blur(22px)}
-.blob{position:absolute;border-radius:46% 54% 50% 50% / 52% 48% 52% 48%;z-index:0}
-.burst{position:absolute;right:46px;top:${top + 238}px;width:196px;height:196px;background:${B_RED};clip-path:${poly};color:#fff;font-weight:800;font-size:34px;line-height:1.15;display:flex;align-items:center;justify-content:center;text-align:center;transform:rotate(8deg);z-index:7;white-space:pre-line}
-/* photo */
-.pimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:${it.pos || '50% 50%'}}
-.shadeT{position:absolute;left:0;right:0;top:0;height:560px;background:linear-gradient(to bottom,rgba(8,24,16,.72),rgba(8,24,16,0));z-index:3}
-.shadeB{position:absolute;left:0;right:0;bottom:0;height:420px;background:linear-gradient(to top,rgba(8,24,16,.78),rgba(8,24,16,0));z-index:3}
-.price{position:absolute;left:56px;bottom:116px;z-index:6;color:#fff}
-.price s{display:block;font-size:30px;font-weight:600;opacity:.8}
-.price b{display:block;font-size:84px;font-weight:800;letter-spacing:-0.04em;line-height:1.05}
-.price b em{font-style:normal;color:#FF9D45;font-size:.62em;margin-right:12px}
-.cta.p{left:auto;right:56px;transform:none;bottom:136px;padding:22px 52px;font-size:34px}
+${ext
+  ? `.pimg{position:absolute;left:0;top:500px;width:1080px;height:764px;object-fit:cover;object-position:${pos};-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 110px);mask-image:linear-gradient(to bottom,transparent 0,#000 110px)}`
+  : `.pimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:${pos};transform:scale(${it.zoom || 1});transform-origin:${it.origin || pos}}
+.shadeT{position:absolute;left:0;right:0;top:0;height:600px;background:linear-gradient(to bottom,rgba(8,24,16,.74),rgba(8,24,16,0));z-index:3}
+.shadeB{position:absolute;left:0;right:0;bottom:0;height:300px;background:linear-gradient(to top,rgba(8,24,16,.5),rgba(8,24,16,0));z-index:3}`}
 </style></head><body><div class="ad">
-${photo ? `<img class="pimg" src="${PHOTO_URL}/${it.photo}"><div class="shadeT"></div><div class="shadeB"></div>` : ''}
-<img class="logo" src="${PHOTO_URL}/${logo}">
-${tags ? `<div class="tags">${tags}</div>` : ''}
+<img class="pimg" src="${PHOTO_URL}/${it.photo}">
+${ext ? '' : '<div class="shadeT"></div><div class="shadeB"></div>'}
+<img class="logo" src="${PHOTO_URL}/${ext ? 'logo_green.png' : 'logo_cream.png'}">
 <h1 class="fit" data-size="80">${rich(it.headline)}</h1>
 <p class="sub">${rich(it.sub)}</p>
-${photo ? `<div class="price"><s>${esc(p.priceOrg)}</s><b><em>6%</em>${esc(p.price)}</b></div><div class="cta p">${esc(p.ctaBtn)}</div>` : `${stage}<div class="burst">${esc(it.burst || '')}</div><div class="cta">${esc(p.ctaBtn)}</div>`}
-<div class="bar">${photo ? `<img src="${PHOTO_URL}/logo_cream.png"><span>nelna.shop</span>` : `<span>낼나 <b>포커스 온 타이머</b> · nelna.shop</span>`}</div>
+<div class="bar"><img src="${PHOTO_URL}/logo_cream.png"><span>nelna.shop</span></div>
 </div>
 <script>
 const imgs=[...document.images];
@@ -357,10 +328,16 @@ function brief() {
       }
     }
     if (brandSets[p.id]) {
-      L.push('### 낼나 기존 광고 스타일 시안 (크림/사진 배경 · nelna. 로고 · 레드 CTA · 딥그린 바)\n');
+      L.push('### 낼나 기존 광고 스타일 시안 (사진 풀블리드 · nelna. 로고 · 딥그린 바 / 가격·구매 버튼 없음)\n');
       for (const it of brandSets[p.id]) {
+        const src = p.creatives.find((c) => c.id === it.copy);
+        const body = src.primary.split('\n').filter((l) => !/정가|32,900원/.test(l)).join('\n').replace('👉 지금 바로 확인하기', '👉 자세히 보기').replace('👉 색상 고르러 가기', '👉 자세히 보기').replace('👉 집중력 찾으러 가기', '👉 자세히 보기').replace(/\n{3,}/g, '\n\n');
+        L.push(`#### ${p.id}_${it.id}\n`);
         L.push(`![${p.id}_${it.id}](out/${p.id}_${it.id}_feed.png)\n`);
-        L.push(`- ${p.id}_${it.id} · 본문·헤드라인·CTA는 **${it.copy}** 와 동일\n`);
+        L.push(`- **메타 헤드라인**: ${src.mhead}`);
+        L.push(`- **메타 설명**: ${it.desc}`);
+        L.push(`- **CTA 버튼**: ${it.cta}`);
+        L.push(`- **본문**:\n\n  > ${body.replace(/\n/g, '\n  > ')}\n`);
       }
     }
     L.push(`### 영상 스크립트 (${p.video.length})\n`);
