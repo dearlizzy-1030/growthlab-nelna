@@ -59,3 +59,15 @@ brandSets['05-yeonryeok'].push(
     mhead: '1년이 한 장으로 채워져요', desc: '일정은 적고, 기록은 도장 콕', cta: '더 알아보기',
     primary: '1년이 한 장으로 채워져요.🖍️\n✅ 일정만 적어도 충분하고\n✅ 기록하고 싶은 날엔 줄줄이 스탬프 콕\n✅ 다 채우지 않아도 괜찮아요\n\n👉 자세히 보기\n\n𝙣𝙚𝙡𝙣𝙖.𝙨𝙝𝙤𝙥' },
 );
+
+// f1 사진 후보 (헤드라인·보조 문구는 f1과 동일)
+{
+  const base = { size: 100, subgap: 118, headline: '*2027* 연력 포스터', sub: '월 구분 없이 52주가 쭉 이어지는 세로형',
+    mhead: '2027 낼나 연력 포스터', desc: '월 구분 없이 52주가 이어지는 세로형 연력', cta: '더 알아보기', logo: 'none',
+    primary: brandSets['05-yeonryeok'].find((x) => x.id === 'f1').primary };
+  brandSets['05-yeonryeok'].push(
+    { ...base, id: 'f1a', layout: 'extend', photo: 'cal_clean.png', pos: '50% 49%', ptop: 300, ph: 1050, fade: 10, bgc: '#F4EEE4', hl: '#D9382E' },
+    { ...base, id: 'f1b', layout: 'photo', photo: 'cal_wall_woman.png', pos: '50% 50%' },
+    { ...base, id: 'f1c', layout: 'photo', photo: 'cal_flatlay.png', pos: '50% 50%' },
+  );
+}
