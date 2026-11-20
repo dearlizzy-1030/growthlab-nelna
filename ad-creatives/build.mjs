@@ -256,19 +256,19 @@ function renderBrand(p, it, fmt) {
 ${fonts}
 *{box-sizing:border-box;margin:0;padding:0}
 body{width:${fmt.w}px;height:${fmt.h}px;overflow:hidden;font-family:'PT',sans-serif;word-break:keep-all;-webkit-font-smoothing:antialiased}
-.ad{position:relative;width:${fmt.w}px;height:${fmt.h}px;overflow:hidden;background:${ext ? it.bgc : '#222'}}
+.ad{position:relative;width:${fmt.w}px;height:${fmt.h}px;overflow:hidden;background:${ext ? (it.bgc2 ? `linear-gradient(90deg,${it.bgc},${it.bgc2})` : it.bgc) : '#222'}}
 .logo{position:absolute;left:56px;top:48px;height:40px;z-index:5}
 h1{position:absolute;left:56px;top:${top}px;width:968px;font-weight:800;letter-spacing:-0.045em;line-height:1.17;color:${ext ? '#1A1A1A' : '#fff'};white-space:nowrap;z-index:5;text-shadow:${it.shadow || 'none'}}
 .hl{color:${ext ? hl : '#FFE066'}}
 .sub{position:absolute;left:56px;top:${top + (it.subgap || 190)}px;width:968px;font-size:31px;font-weight:500;color:${ext ? '#555' : 'rgba(255,255,255,.92)'};z-index:5;line-height:1.4;text-shadow:${it.shadow || 'none'}}
 ${ext
-  ? `.pimg{position:absolute;left:0;top:${it.ptop || 580}px;width:1080px;height:${it.ph || 770}px;object-fit:cover;object-position:${pos};-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 110px);mask-image:linear-gradient(to bottom,transparent 0,#000 110px)}`
+  ? `.pimg{position:absolute;left:0;top:${it.ptop || 580}px;width:1080px;height:${it.ph || 770}px;object-fit:cover;object-position:${pos};-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 ${it.fade ?? 110}px);mask-image:linear-gradient(to bottom,transparent 0,#000 ${it.fade ?? 110}px)}`
   : `.pimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:${pos};transform:scale(${it.zoom || 1});transform-origin:${it.origin || pos}}
 .shadeT{position:absolute;left:0;right:0;top:0;height:600px;background:linear-gradient(to bottom,rgba(0,0,0,.62),rgba(0,0,0,0));z-index:3}`}
 </style></head><body><div class="ad">
 <img class="pimg" src="${PHOTO_URL}/${it.photo}">
 ${ext || it.noshade ? '' : '<div class="shadeT"></div>'}
-<img class="logo" src="${PHOTO_URL}/${ext || it.logo === 'green' ? 'logo_green.png' : 'logo_cream.png'}">
+${it.logo === 'none' ? '' : `<img class="logo" src="${PHOTO_URL}/${ext || it.logo === 'green' ? 'logo_green.png' : 'logo_cream.png'}">`}
 <h1 class="fit" data-size="${it.size || 80}">${rich(it.headline)}</h1>
 <p class="sub">${rich(it.sub)}</p>
 </div>
