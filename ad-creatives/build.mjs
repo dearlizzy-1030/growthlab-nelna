@@ -52,6 +52,10 @@ function theme(p, layout) {
   return { bg: pal.bg, fg: pal.ink, hl: pal.accent, pillBg: pal.accent, pillFg: onAccent, soft: pal.soft, card: pal.card, cardFg: pal.ink };
 }
 
+
+// 가격 앵커 + 구매 버튼 푸터 (p.priceOrg 가 있는 제품만)
+const offerHtml = (p) => `<div class="pr"><s>${esc(p.priceOrg)}</s><b>${esc(p.price)}</b></div><div class="cta">${esc(p.ctaBtn || '지금 구매하기 →')}</div>`;
+const offerCss = (bg, fg) => `.pr s{display:block;font-size:30px;font-weight:600;opacity:.78;text-decoration:line-through}.pr b{display:block;font-size:52px;font-weight:800;letter-spacing:-0.03em;line-height:1.05}.cta{font-weight:800;font-size:33px;padding:21px 36px;border-radius:999px;background:${bg};color:${fg};white-space:nowrap}`;
 // ---------- layouts ----------
 function body(c, t, fmt) {
   const story = fmt.key === 'story';
@@ -154,12 +158,13 @@ h1{font-weight:800;letter-spacing:-0.04em;line-height:1.12;white-space:nowrap}
 footer{display:flex;justify-content:space-between;align-items:center;gap:24px;position:relative;z-index:3}
 .pname{font-weight:700;font-size:30px;letter-spacing:-0.02em}
 .price{font-weight:800;font-size:32px;padding:14px 28px;border-radius:999px;background:${t.pillBg};color:${t.pillFg};white-space:nowrap}
+${offerCss(t.pillBg, t.pillFg)}
 </style></head><body>
 <div class="ad">
   <header><div class="brand">낼나<small>nelna.shop</small></div><div class="kicker">${esc(plain(c.kicker))}</div></header>
   ${body(c, t, fmt)}
   ${c.foot ? `<div class="foot">${esc(c.foot)}</div>` : ''}
-  <footer><div class="pname">${esc(p.name)}</div><div class="price">${esc(p.price)}</div></footer>
+  <footer>${p.priceOrg ? offerHtml(p) : `<div class="pname">${esc(p.name)}</div><div class="price">${esc(p.price)}</div>`}</footer>
 </div>
 <script>
 document.fonts.ready.then(()=>{
@@ -211,6 +216,7 @@ h1{font-weight:800;letter-spacing:-0.04em;line-height:1.14;white-space:nowrap}
 .bottom{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-top:${it.layout === 'photoTop' ? 0 : 38}px}
 .pname{font-weight:700;font-size:29px;letter-spacing:-0.02em}
 .price{font-weight:800;font-size:31px;padding:13px 27px;border-radius:999px;background:${priceBg};color:${priceFg};white-space:nowrap}
+${offerCss(priceBg, priceFg)}
 </style></head><body><div class="ad">
 <img class="photo" src="${PHOTO_URL}/${it.photo}">
 ${it.layout === 'photoFull' ? '<div class="shade top"></div><div class="shade"></div>' : ''}
@@ -221,7 +227,7 @@ ${it.layout === 'photoFull' ? '<div class="brand">낼나</div>' : ''}
   ${it.sub ? `<p class="sub">${rich(it.sub)}</p>` : ''}
   ${it.foot ? `<div class="foot">${esc(it.foot)}</div>` : ''}
 </div>
-<div class="bottom"><div class="pname">${esc(p.name)}</div><div class="price">${esc(p.price)}</div></div></div>
+<div class="bottom">${p.priceOrg ? offerHtml(p) : `<div class="pname">${esc(p.name)}</div><div class="price">${esc(p.price)}</div>`}</div></div>
 </div>
 <script>
 const img=document.querySelector('.photo');

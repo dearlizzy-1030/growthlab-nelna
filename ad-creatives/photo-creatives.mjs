@@ -4,15 +4,20 @@
 // story: true 면 9:16 커버도 만든다.
 export const photoSets = {
   '01-timer': [
-    { id: 't1', copy: 'c1', photo: 'timer_butter.jpg', layout: 'photoTop', pos: '50% 59%', h: 840, bg: '#FFF1CC', story: true,
-      kicker: '포커스 온 타이머', headline: '돌리면,\n*시작*', sub: '다이얼 한 번이면 자동으로 카운트다운' },
-    { id: 't2', copy: 'c3', photo: 'timer_tomato.jpg', layout: 'photoTop', pos: '50% 59%', h: 840, bg: '#2A1F14', story: true,
-      kicker: '폰 말고 타이머', headline: '폰 말고\n*타이머*에게 맡기세요', sub: '공부 · 회의 · 휴식 · SNS 시간 제한까지' },
-    { id: 't3', copy: 'c2', photo: 'timer_butter.jpg', layout: 'photoTop', pos: '50% 59%', h: 840, bg: '#1D2A5B', hl: '#FFD966',
-      kicker: '충전 걱정 없이', headline: '충전기 말고,\n*건전지 하나*', sub: 'AAA건전지 방식 · 하루 3시간 써도 6개월',
+    { id: 't1', copy: 'c1', photo: 'timer_butter.jpg', layout: 'photoTop', pos: '50% 59%', h: 800, bg: '#FFF1CC', story: true,
+      kicker: '포커스 온 타이머', headline: '폰 잠깐 본다는 게\n*한 시간*이 된 적 있다면', sub: '다이얼부터 돌리세요 · 한 번이면 카운트다운 시작' },
+    { id: 't2', copy: 'c2', photo: 'timer_tomato.jpg', layout: 'photoTop', pos: '50% 59%', h: 800, bg: '#2A1F14', story: true,
+      kicker: '시작이 제일 어렵다면', headline: '딱 *25분*만\n돌려보세요', sub: '공부 · 업무 · 청소, 다이얼 한 번이면 시작' },
+    { id: 't3', copy: 'c3', photo: 'timer_butter.jpg', layout: 'photoTop', pos: '50% 59%', h: 800, bg: '#1D2A5B', hl: '#FFD966',
+      kicker: '충전 NO', headline: '충전 안 해도\n*6개월*', sub: 'AAA건전지 방식 · 하루 3시간 써도',
       foot: '* 하루 3시간 사용 기준' },
-    { id: 't4', copy: 'c4', photo: 'timer_tomato.jpg', layout: 'photoTop', pos: '50% 59%', h: 840, bg: '#FFE3DC',
-      kicker: '데스크테리어', headline: '책상 위에 두면\n*인테리어*가 되는 타이머', sub: '클래식 · 버터 · 토마토 3가지 색' },
+    { id: 't4', copy: 'c4', photo: 'timer_tomato.jpg', layout: 'photoTop', pos: '50% 59%', h: 800, bg: '#FFE3DC',
+      kicker: '10가지 알람', headline: '회의 중엔 *무음*,\n집에선 *크게*', sub: '소리 × 길이 × 라이트, 내 상황대로 고르세요' },
+    { id: 't5', copy: 'c5', photo: 'timer_classic.jpg', layout: 'photoTop', pos: '50% 46%', h: 860, bg: '#EFE8DA', hl: '#1F7A4D', story: true,
+      kicker: '이미 많이 선택했어요', headline: '*3,000개* 넘게\n판매된 타이머',
+      foot: '* 낼나 자사몰 최근 1년 판매 수량 기준' },
+    { id: 't6', copy: 'c6', photo: 'timer_butter.jpg', layout: 'photoTop', pos: '50% 59%', h: 800, bg: '#FFD966', hl: '#1D2A5B', story: true,
+      kicker: '몰입의 순간', headline: '집 나간 *집중력*,\n찾아드려요', sub: '다이얼 한 번, 몰입의 순간을 경험해 보세요' },
   ],
   '02-stand': [
     { id: 'p1', copy: 'c3', photo: 'stand.jpg', layout: 'photoTop', pos: '50% 50%', h: 660, bg: '#ECE9E2', story: true,
