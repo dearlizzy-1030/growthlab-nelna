@@ -6,6 +6,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
 import { products } from './creatives.mjs';
 import { photoSets } from './photo-creatives.mjs';
+import { brandSets } from './brand-creatives.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
@@ -241,6 +242,81 @@ Promise.all([document.fonts.ready,img.decode().catch(()=>{})]).then(()=>{
 </script></body></html>`;
 }
 
+
+// ---------- 낼나 스타일 ----------
+const poly = `polygon(${Array.from({ length: 36 }, (_, i) => { const r = i % 2 ? 41 : 50; const a = (Math.PI * 2 * i) / 36 - Math.PI / 2; return `${(50 + r * Math.cos(a)).toFixed(1)}% ${(50 + r * Math.sin(a)).toFixed(1)}%`; }).join(',')})`;
+const B_GREEN = '#0B5439', B_RED = '#E5322B', B_CREAM = '#F3EFE4';
+function renderBrand(p, it, fmt) {
+  const photo = it.layout === 'photo';
+  const hl = it.hl || B_RED;
+  const logo = photo ? 'logo_cream.png' : 'logo_green.png';
+  const fonts = ['Regular:400', 'Medium:500', 'SemiBold:600', 'Bold:700', 'ExtraBold:800']
+    .map((x) => { const [n, w] = x.split(':'); return `@font-face{font-family:'PT';font-weight:${w};src:url('${FONT_URL}/Pretendard-${n}.woff2') format('woff2');}`; }).join('\n');
+  const tags = (it.tags || []).map((t, i) => `<span class="${i % 2 ? 'y' : 'r'}">${esc(t)}</span>`).join('');
+  const top = it.tags ? 176 : 128;
+  const blob = (c, l, t, s) => `<i class="blob" style="background:${c};left:${l}px;top:${t}px;width:${s}px;height:${s}px"></i>`;
+  const stage = `
+    <div class="stage">
+      ${it.blobs ? blob('#F6E3A6', 10, 150, 400) + blob('#D4E4F2', 650, 170, 400) + blob('#F3D3D0', 250, 20, 560) : ''}
+      <div class="floor"></div>
+      <img class="c a" src="${PHOTO_URL}/cut_classic.png"><img class="c b" src="${PHOTO_URL}/cut_butter.png"><img class="c m" src="${PHOTO_URL}/cut_tomato.png">
+    </div>`;
+  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><style>
+${fonts}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:${fmt.w}px;height:${fmt.h}px;overflow:hidden;font-family:'PT',sans-serif;word-break:keep-all;-webkit-font-smoothing:antialiased}
+.ad{position:relative;width:${fmt.w}px;height:${fmt.h}px;overflow:hidden;background:${photo ? '#222' : it.bg}}
+.logo{position:absolute;left:56px;top:48px;height:40px;z-index:5}
+.tags{position:absolute;left:56px;top:112px;display:flex;gap:10px;z-index:5}
+.tags span{font-weight:700;font-size:25px;padding:8px 20px;border-radius:999px}
+.tags .r{color:${B_RED};background:#FDECEA;border:2px solid ${B_RED}}
+.tags .y{color:#4a3b00;background:#F6DD7B}
+h1{position:absolute;left:56px;top:${top}px;width:968px;font-weight:800;letter-spacing:-0.045em;line-height:1.17;color:${photo ? '#fff' : '#1A1A1A'};white-space:nowrap;z-index:5}
+.hl{color:${photo ? '#FFE066' : hl}}
+.sub{position:absolute;left:56px;top:${top + 190}px;width:968px;font-size:31px;font-weight:500;color:${photo ? 'rgba(255,255,255,.92)' : '#555'};z-index:5;line-height:1.4}
+.sub .hl{color:${photo ? '#FFE066' : B_GREEN};font-weight:800}
+.bar{position:absolute;left:0;right:0;bottom:0;height:86px;background:${B_GREEN};color:#fff;display:flex;align-items:center;justify-content:center;gap:18px;font-size:30px;font-weight:600;z-index:6}
+.bar b{font-weight:800}
+.bar img{height:34px}
+.cta{position:absolute;left:50%;transform:translateX(-50%);bottom:126px;background:${B_RED};color:#fff;font-weight:800;font-size:38px;padding:24px 78px;border-radius:999px;white-space:nowrap;box-shadow:0 10px 0 rgba(0,0,0,.12);z-index:6}
+.stage{position:absolute;left:0;top:${top + 250}px;width:1080px;height:640px;z-index:2}
+.c{position:absolute;filter:drop-shadow(0 22px 20px rgba(60,40,10,.24))}
+.c.a{width:400px;left:8px;top:190px;transform:rotate(-6deg);z-index:1}
+.c.b{width:400px;right:8px;top:205px;transform:rotate(6deg);z-index:1}
+.c.m{width:500px;left:290px;top:50px;z-index:3}
+.floor{position:absolute;left:150px;right:150px;bottom:30px;height:50px;border-radius:50%;background:rgba(40,30,10,.20);filter:blur(22px)}
+.blob{position:absolute;border-radius:46% 54% 50% 50% / 52% 48% 52% 48%;z-index:0}
+.burst{position:absolute;right:46px;top:${top + 238}px;width:196px;height:196px;background:${B_RED};clip-path:${poly};color:#fff;font-weight:800;font-size:34px;line-height:1.15;display:flex;align-items:center;justify-content:center;text-align:center;transform:rotate(8deg);z-index:7;white-space:pre-line}
+/* photo */
+.pimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:${it.pos || '50% 50%'}}
+.shadeT{position:absolute;left:0;right:0;top:0;height:560px;background:linear-gradient(to bottom,rgba(8,24,16,.72),rgba(8,24,16,0));z-index:3}
+.shadeB{position:absolute;left:0;right:0;bottom:0;height:420px;background:linear-gradient(to top,rgba(8,24,16,.78),rgba(8,24,16,0));z-index:3}
+.price{position:absolute;left:56px;bottom:116px;z-index:6;color:#fff}
+.price s{display:block;font-size:30px;font-weight:600;opacity:.8}
+.price b{display:block;font-size:84px;font-weight:800;letter-spacing:-0.04em;line-height:1.05}
+.price b em{font-style:normal;color:#FF9D45;font-size:.62em;margin-right:12px}
+.cta.p{left:auto;right:56px;transform:none;bottom:136px;padding:22px 52px;font-size:34px}
+</style></head><body><div class="ad">
+${photo ? `<img class="pimg" src="${PHOTO_URL}/${it.photo}"><div class="shadeT"></div><div class="shadeB"></div>` : ''}
+<img class="logo" src="${PHOTO_URL}/${logo}">
+${tags ? `<div class="tags">${tags}</div>` : ''}
+<h1 class="fit" data-size="80">${rich(it.headline)}</h1>
+<p class="sub">${rich(it.sub)}</p>
+${photo ? `<div class="price"><s>${esc(p.priceOrg)}</s><b><em>6%</em>${esc(p.price)}</b></div><div class="cta p">${esc(p.ctaBtn)}</div>` : `${stage}<div class="burst">${esc(it.burst || '')}</div><div class="cta">${esc(p.ctaBtn)}</div>`}
+<div class="bar">${photo ? `<img src="${PHOTO_URL}/logo_cream.png"><span>nelna.shop</span>` : `<span>낼나 <b>포커스 온 타이머</b> · nelna.shop</span>`}</div>
+</div>
+<script>
+const imgs=[...document.images];
+Promise.all([document.fonts.ready,...imgs.map(i=>i.decode().catch(()=>{}))]).then(()=>{
+  document.querySelectorAll('.fit').forEach(el=>{
+    let s=parseFloat(el.dataset.size);el.style.fontSize=s+'px';
+    while(el.scrollWidth>968+1&&s>26){s-=2;el.style.fontSize=s+'px';}
+  });
+  document.body.dataset.ready='1';
+});
+</script></body></html>`;
+}
+
 // ---------- brief & contact sheet ----------
 function brief() {
   const L = [];
@@ -280,6 +356,13 @@ function brief() {
         L.push(`- ${p.id}_${it.id} · 본문·헤드라인·CTA는 **${it.copy}** 와 동일${it.story ? ' · 스토리/릴스 커버 있음' : ''}\n`);
       }
     }
+    if (brandSets[p.id]) {
+      L.push('### 낼나 기존 광고 스타일 시안 (크림/사진 배경 · nelna. 로고 · 레드 CTA · 딥그린 바)\n');
+      for (const it of brandSets[p.id]) {
+        L.push(`![${p.id}_${it.id}](out/${p.id}_${it.id}_feed.png)\n`);
+        L.push(`- ${p.id}_${it.id} · 본문·헤드라인·CTA는 **${it.copy}** 와 동일\n`);
+      }
+    }
     L.push(`### 영상 스크립트 (${p.video.length})\n`);
     L.push('| 구간 | 내용 |\n|---|---|');
     p.video.beats.forEach(([t, d]) => L.push(`| ${t} | ${d} |`));
@@ -295,7 +378,7 @@ function contactSheet() {
         .map(
           (c) => `<figure><img loading="lazy" src="out/${p.id}_${c.id}_feed.png"><figcaption><b>${esc(c.mhead)}</b><br>${esc(c.angle)}</figcaption></figure>`,
         )
-        .join('')}${(photoSets[p.id] || []).map((it) => `<figure><img loading="lazy" src="out/${p.id}_${it.id}_feed.png"><figcaption><b>사진 합성 ${it.id}</b><br>${esc(plain(it.headline).replace(/\n/g, ' '))}</figcaption></figure>`).join('')}<figure class="s"><img loading="lazy" src="out/${p.id}_c1_story.png"><figcaption>스토리/릴스 커버 (c1)</figcaption></figure></div></section>`,
+        .join('')}${(photoSets[p.id] || []).map((it) => `<figure><img loading="lazy" src="out/${p.id}_${it.id}_feed.png"><figcaption><b>사진 합성 ${it.id}</b><br>${esc(plain(it.headline).replace(/\n/g, ' '))}</figcaption></figure>`).join('')}${(brandSets[p.id] || []).map((it) => `<figure><img loading="lazy" src="out/${p.id}_${it.id}_feed.png"><figcaption><b>낼나 스타일 ${it.id}</b><br>${esc(plain(it.headline).replace(/\n/g, ' '))}</figcaption></figure>`).join('')}<figure class="s"><img loading="lazy" src="out/${p.id}_c1_story.png"><figcaption>스토리/릴스 커버 (c1)</figcaption></figure></div></section>`,
     )
     .join('');
   return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>낼나 광고 소재 컨택트시트</title><style>
@@ -348,6 +431,19 @@ for (const p of products) {
       await page.screenshot({ path: path.join(OUT, `${p.id}_${it.id}_${fmt.key}.png`) });
       n++;
     }
+  }
+}
+for (const p of products) {
+  if (only && !p.id.includes(only)) continue;
+  for (const it of brandSets[p.id] || []) {
+    const fmt = FEED;
+    const file = path.join(TMP, `${p.id}_${it.id}_${fmt.key}.html`);
+    fs.writeFileSync(file, renderBrand(p, it, fmt));
+    await page.setViewportSize({ width: fmt.w, height: fmt.h });
+    await page.goto(pathToFileURL(file).href);
+    await page.waitForSelector('body[data-ready="1"]');
+    await page.screenshot({ path: path.join(OUT, `${p.id}_${it.id}_${fmt.key}.png`) });
+    n++;
   }
 }
 await browser.close();
