@@ -184,7 +184,7 @@ function renderPhoto(p, it, fmt) {
   const fg = onColor(bg) === '#FFFFFF' ? '#FFFFFF' : pal.ink;
   const padB = story ? 280 : 56;
   const photoH = it.layout === 'photoTop' ? Math.round((it.h || 700) * (story ? 1.45 : 1)) : fmt.h;
-  const hl = it.layout === 'photoFull' ? '#FFFFFF' : pal.accent;
+  const hl = it.hl || (it.layout === 'photoFull' ? '#FFFFFF' : pal.accent);
   const chipCol = it.layout === 'photoFull' ? '#FFFFFF' : fg;
   const priceBg = it.layout === 'photoFull' ? '#FFFFFF' : pal.accent;
   const priceFg = it.layout === 'photoFull' ? '#14110F' : onAccent;

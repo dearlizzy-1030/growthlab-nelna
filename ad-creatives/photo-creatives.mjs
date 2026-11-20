@@ -4,10 +4,15 @@
 // story: true 면 9:16 커버도 만든다.
 export const photoSets = {
   '01-timer': [
-    { id: 'p1', copy: 'c1', photo: 'timer.jpg', layout: 'photoTop', pos: '50% 50%', h: 660, bg: '#FFF1CC', story: true,
-      kicker: '포커스 온 타이머', headline: '나의 하루는\n*72시간*', sub: 'Great things take time · One thing at a time\nFlow with your own rhythm' },
-    { id: 'p2', copy: 'c3', photo: 'timer.jpg', layout: 'photoFull', pos: '50% 50%',
-      kicker: '나에게 맞는 알람', headline: '집중할 땐 *조용히*,\n쉴 땐 *당당하게*', sub: '무음 · 작게 · 크게 × 3초 · 30초 × 라이트 on/off' },
+    { id: 't1', copy: 'c1', photo: 'timer_butter.jpg', layout: 'photoTop', pos: '50% 59%', h: 840, bg: '#FFF1CC', story: true,
+      kicker: '포커스 온 타이머', headline: '나의 하루는\n*72시간*', sub: 'One thing at a time' },
+    { id: 't2', copy: 'c3', photo: 'timer_tomato.jpg', layout: 'photoTop', pos: '50% 59%', h: 840, bg: '#2A1F14', story: true,
+      kicker: '나에게 맞는 알람', headline: '집중할 땐 *조용히*,\n쉴 땐 *당당하게*', sub: '무음 · 작게 · 크게 × 3초 · 30초 × 라이트' },
+    { id: 't3', copy: 'c2', photo: 'timer_butter.jpg', layout: 'photoTop', pos: '50% 59%', h: 840, bg: '#1D2A5B', hl: '#FFD966',
+      kicker: '충전 걱정 없이', headline: '데스크 위 작은\n*몰입 스위치*', sub: 'AAA건전지로 충전 없이, 다이얼만 돌리면 시작',
+      foot: '* 하루 3시간 사용 기준 6개월' },
+    { id: 't4', copy: 'c1', photo: 'timer_tomato.jpg', layout: 'photoTop', pos: '50% 59%', h: 840, bg: '#FFE3DC',
+      kicker: '포커스 온 타이머', headline: '나의 하루는\n*72시간*', sub: 'Flow with your own rhythm' },
   ],
   '02-stand': [
     { id: 'p1', copy: 'c3', photo: 'stand.jpg', layout: 'photoTop', pos: '50% 50%', h: 660, bg: '#ECE9E2', story: true,
